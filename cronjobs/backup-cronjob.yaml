@@ -1,0 +1,53 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+ name: wordpress-backup
+ namespace: default
+spec:
+ schedule: "0 2 * * 0"  # jeden Sonntag um 2 Uhr nachts
+ jobTemplate:
+   spec:
+     template:
+       spec:
+         containers:
+         - name: backup
+           image: bitnami/kubectl
+           command: 
+           - /bin/bash
+           - -c
+           - |
+             DATE=$(date +%Y%m%d)
+             BACKUP_DIR="/backup/$DATE"
+             mkdir -p $BACKUP_DIR
+
+             # MariaDB SK Backup
+             kubectl exec -n wordpress $(kubectl get pods -n wordpress -l app=mysql-sk -o jsonpath="{.items[0].metadata.name}") \
+              -- mariadb-dump -u root -p$(kubectl get secret -n wordpress wordpress-sk-secret -o jsonpath="{.data.mariadb-password}" | base64 -d) wordpress > "$BACKUP_DIR/wordpress-sk-db.sql"
+
+             # MariaDB JZL Backup
+             kubectl exec -n wordpress $(kubectl get pods -n wordpress -l app=mysql-sk -o jsonpath="{.items[0].metadata.name}") \
+              -- mariadb-dump -u root -p$(kubectl get secret -n wordpress-jzl wordpress-jzl-secret -o jsonpath="{.data.mariadb-password}" | base64 -d) wp_ja_zum_leben > "$BACKUP_DIR/wordpress-jzl-db.sql"
+                        
+             # Cluster Backups
+             kubectl get pvc -A -o yaml > "$BACKUP_DIR/persistent-volumes.yaml"
+             kubectl get all -A -o yaml > "$BACKUP_DIR/cluster-config.yaml"
+           volumeMounts:
+           - name: backup-storage
+             mountPath: /backup
+         volumes:
+         - name: backup-storage
+           persistentVolumeClaim:
+             claimName: backup-pvc
+         restartPolicy: OnFailure
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+ name: backup-pvc
+spec:
+ accessModes:
+   - ReadWriteOnce
+ storageClassName: local-path
+ resources:
+   requests:
+     storage: 10Gi
