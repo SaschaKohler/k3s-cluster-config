@@ -1,8 +1,41 @@
 # apps/wordpress-jzl/base/kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
+namespace: wordpress-jzl
+
 resources:
 - deployment.yaml
 - service.yaml
 - ingress.yaml
-- pvc.yaml
+- redis-deployment.yaml
+- redis-service.yaml
+
+patches:
+- patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: wordpress-jzl
+      namespace: wordpress-jzl
+    spec:
+      template:
+        spec:
+          containers:
+          - name: wordpress
+            env:
+            - name: WP_REDIS_HOST
+              value: wordpress-jzl-redis
+            - name: WP_REDIS_PORT
+              value: "6379"
+            - name: WP_REDIS_DATABASE
+              value: "0"
+            - name: WP_REDIS_TIMEOUT
+              value: "1"
+            - name: WP_REDIS_READ_TIMEOUT
+              value: "1"
+            - name: WP_CACHE
+              value: "true"
+  target:
+    kind: Deployment
+    name: wordpress-jzl

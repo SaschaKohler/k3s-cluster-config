@@ -40,8 +40,6 @@ spec:
             secretKeyRef:
               key: mariadb-password
               name: wordpress-jzl-secret
-        - name: WORDPRESS_DB_NAME
-          value: wp_ja_zum_leben
         image: wordpress:latest
         imagePullPolicy: Always
         name: wordpress

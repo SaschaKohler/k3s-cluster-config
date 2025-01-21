@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-jzl-redis
+  namespace: wordpress-jzl
+spec:
+  selector:
+    matchLabels:
+      app: wordpress-jzl-redis
+  template:
+    metadata:
+      labels:
+        app: wordpress-jzl-redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:latest
+          ports:
+            - containerPort: 6379
