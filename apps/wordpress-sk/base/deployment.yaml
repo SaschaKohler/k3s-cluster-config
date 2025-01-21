@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"wordpress-sk","namespace":"wordpress"},"spec":{"selector":{"matchLabels":{"app":"wordpress-sk"}},"strategy":{"type":"Recreate"},"template":{"metadata":{"labels":{"app":"wordpress-sk"}},"spec":{"containers":[{"env":[{"name":"WORDPRESS_DB_HOST","value":"mysql-sk"},{"name":"WORDPRESS_DB_USER","value":"wordpress"},{"name":"WORDPRESS_DB_PASSWORD","valueFrom":{"secretKeyRef":{"key":"mariadb-password","name":"wordpress-sk-secret"}}},{"name":"WORDPRESS_DB_NAME","value":"wordpress"}],"image":"wordpress:latest","name":"wordpress","ports":[{"containerPort":80}],"volumeMounts":[{"mountPath":"/var/www/html","name":"wordpress-persistent-storage"}]}],"volumes":[{"name":"wordpress-persistent-storage","persistentVolumeClaim":{"claimName":"wordpress-sk-pvc"}}]}}}}
+  creationTimestamp: "2025-01-12T14:22:06Z"
+  generation: 1
+  name: wordpress-sk
+  namespace: wordpress
+  resourceVersion: "58862"
+  uid: 3708de1d-7fc1-40fd-b776-37c0d634b1ea
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: wordpress-sk
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: wordpress-sk
+    spec:
+      containers:
+      - env:
+        - name: WORDPRESS_DB_HOST
+          value: mysql-sk
+        - name: WORDPRESS_DB_USER
+          value: wordpress
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: mariadb-password
+              name: wordpress-sk-secret
+        - name: WORDPRESS_DB_NAME
+          value: wordpress
+        image: wordpress:latest
+        imagePullPolicy: Always
+        name: wordpress
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/www/html
+          name: wordpress-persistent-storage
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: wordpress-persistent-storage
+        persistentVolumeClaim:
+          claimName: wordpress-sk-pvc
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2025-01-12T14:22:06Z"
+    lastUpdateTime: "2025-01-12T14:22:12Z"
+    message: ReplicaSet "wordpress-sk-5d69c5569" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2025-01-12T17:38:56Z"
+    lastUpdateTime: "2025-01-12T17:38:56Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

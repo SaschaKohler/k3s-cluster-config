@@ -1,0 +1,43 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{"nginx.ingress.kubernetes.io/configuration-snippet":"proxy_set_header X-Forwarded-Proto https;\n","nginx.ingress.kubernetes.io/force-ssl-redirect":"false","nginx.ingress.kubernetes.io/ssl-redirect":"false"},"name":"wordpress-jzl-ingress","namespace":"wordpress-jzl"},"spec":{"ingressClassName":"nginx","rules":[{"host":"ja-zum-leben.at","http":{"paths":[{"backend":{"service":{"name":"wordpress-jzl","port":{"number":80}}},"path":"/","pathType":"Prefix"}]}},{"host":"www.ja-zum-leben.at","http":{"paths":[{"backend":{"service":{"name":"wordpress-jzl","port":{"number":80}}},"path":"/","pathType":"Prefix"}]}}]}}
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header X-Forwarded-Proto https;
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  creationTimestamp: "2025-01-20T20:24:57Z"
+  generation: 2
+  name: wordpress-jzl-ingress
+  namespace: wordpress-jzl
+  resourceVersion: "364485"
+  uid: a6b9a4e5-9326-4c4a-96cf-719cd44c69f5
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: ja-zum-leben.at
+    http:
+      paths:
+      - backend:
+          service:
+            name: wordpress-jzl
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  - host: www.ja-zum-leben.at
+    http:
+      paths:
+      - backend:
+          service:
+            name: wordpress-jzl
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+status:
+  loadBalancer:
+    ingress:
+    - ip: 10.43.188.185

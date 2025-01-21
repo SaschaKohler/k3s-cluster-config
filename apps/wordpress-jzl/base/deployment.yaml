@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"wordpress-jzl","namespace":"wordpress-jzl"},"spec":{"selector":{"matchLabels":{"app":"wordpress-jzl"}},"template":{"metadata":{"labels":{"app":"wordpress-jzl"}},"spec":{"containers":[{"env":[{"name":"WORDPRESS_DB_HOST","value":"mysql-sk.wordpress.svc.cluster.local"},{"name":"WORDPRESS_DB_USER","value":"wordpress"},{"name":"WORDPRESS_DB_PASSWORD","valueFrom":{"secretKeyRef":{"key":"mariadb-password","name":"wordpress-jzl-secret"}}},{"name":"WORDPRESS_DB_NAME","value":"wp_ja_zum_leben"}],"image":"wordpress:latest","name":"wordpress","ports":[{"containerPort":80}],"volumeMounts":[{"mountPath":"/var/www/html","name":"wordpress-storage"}]}],"volumes":[{"name":"wordpress-storage","persistentVolumeClaim":{"claimName":"wordpress-jzl-pvc"}}]}}}}
+  creationTimestamp: "2025-01-20T13:39:17Z"
+  generation: 2
+  name: wordpress-jzl
+  namespace: wordpress-jzl
+  resourceVersion: "360035"
+  uid: c204dbce-8df0-48f0-b5e3-193349a1d1f8
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: wordpress-jzl
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: wordpress-jzl
+    spec:
+      containers:
+      - env:
+        - name: WORDPRESS_DB_HOST
+          value: mysql-sk.wordpress.svc.cluster.local
+        - name: WORDPRESS_DB_USER
+          value: wordpress
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: mariadb-password
+              name: wordpress-jzl-secret
+        - name: WORDPRESS_DB_NAME
+          value: wp_ja_zum_leben
+        image: wordpress:latest
+        imagePullPolicy: Always
+        name: wordpress
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/www/html
+          name: wordpress-storage
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: wordpress-storage
+        persistentVolumeClaim:
+          claimName: wordpress-jzl-pvc
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2025-01-20T13:55:08Z"
+    lastUpdateTime: "2025-01-20T13:55:10Z"
+    message: ReplicaSet "wordpress-jzl-69f7495c87" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2025-01-20T18:46:55Z"
+    lastUpdateTime: "2025-01-20T18:46:55Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 2
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

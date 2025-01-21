@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"name":"wordpress-jzl-pvc","namespace":"wordpress-jzl"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"20Gi"}}}}
+    pv.kubernetes.io/bind-completed: "yes"
+    pv.kubernetes.io/bound-by-controller: "yes"
+    volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+    volume.kubernetes.io/selected-node: serverm8c.at
+    volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+  creationTimestamp: "2025-01-20T12:04:55Z"
+  finalizers:
+  - kubernetes.io/pvc-protection
+  name: wordpress-jzl-pvc
+  namespace: wordpress-jzl
+  resourceVersion: "351887"
+  uid: da740402-47ee-40a3-8b3d-78a17c0862c0
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: local-path
+  volumeMode: Filesystem
+  volumeName: pvc-da740402-47ee-40a3-8b3d-78a17c0862c0
+status:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 20Gi
+  phase: Bound

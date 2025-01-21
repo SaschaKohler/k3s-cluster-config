@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"wordpress-sk","namespace":"wordpress"},"spec":{"ports":[{"port":80}],"selector":{"app":"wordpress-sk"}}}
+  creationTimestamp: "2025-01-12T14:22:07Z"
+  name: wordpress-sk
+  namespace: wordpress
+  resourceVersion: "54748"
+  uid: 259802d4-1351-4da1-90dc-f2838842f3d2
+spec:
+  clusterIP: 10.43.18.37
+  clusterIPs:
+  - 10.43.18.37
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: wordpress-sk
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

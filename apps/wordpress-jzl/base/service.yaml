@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"wordpress-jzl","namespace":"wordpress-jzl"},"spec":{"ports":[{"port":80}],"selector":{"app":"wordpress-jzl"}}}
+  creationTimestamp: "2025-01-20T14:18:55Z"
+  name: wordpress-jzl
+  namespace: wordpress-jzl
+  resourceVersion: "361781"
+  uid: b68853cc-0d5d-434e-9d0b-2c7d01981435
+spec:
+  clusterIP: 10.43.96.117
+  clusterIPs:
+  - 10.43.96.117
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: wordpress-jzl
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

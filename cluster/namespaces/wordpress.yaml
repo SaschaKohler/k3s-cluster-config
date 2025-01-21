@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: "2025-01-12T14:22:06Z"
+  labels:
+    kubernetes.io/metadata.name: wordpress
+  name: wordpress
+  resourceVersion: "54702"
+  uid: e01ea8af-f245-43ac-9b22-c65b55cadc7d
+spec:
+  finalizers:
+  - kubernetes
+status:
+  phase: Active

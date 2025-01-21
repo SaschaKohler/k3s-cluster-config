@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"name":"wordpress-sk-pvc","namespace":"wordpress"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"10Gi"}}}}
+    pv.kubernetes.io/bind-completed: "yes"
+    pv.kubernetes.io/bound-by-controller: "yes"
+    volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+    volume.kubernetes.io/selected-node: serverm8c.at
+    volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+  creationTimestamp: "2025-01-12T14:22:06Z"
+  finalizers:
+  - kubernetes.io/pvc-protection
+  name: wordpress-sk-pvc
+  namespace: wordpress
+  resourceVersion: "54774"
+  uid: fe563ac3-bb3c-4a1a-8e99-1279fb775278
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: local-path
+  volumeMode: Filesystem
+  volumeName: pvc-fe563ac3-bb3c-4a1a-8e99-1279fb775278
+status:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 10Gi
+  phase: Bound

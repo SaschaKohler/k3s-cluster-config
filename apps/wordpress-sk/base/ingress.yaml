@@ -1,0 +1,43 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{"nginx.ingress.kubernetes.io/configuration-snippet":"proxy_set_header X-Forwarded-Proto https;\n","nginx.ingress.kubernetes.io/force-ssl-redirect":"false","nginx.ingress.kubernetes.io/ssl-redirect":"false"},"name":"wordpress-sk-ingress","namespace":"wordpress"},"spec":{"ingressClassName":"nginx","rules":[{"host":"sascha-kohler.at","http":{"paths":[{"backend":{"service":{"name":"wordpress-sk","port":{"number":80}}},"path":"/","pathType":"Prefix"}]}},{"host":"www.sascha-kohler.at","http":{"paths":[{"backend":{"service":{"name":"wordpress-sk","port":{"number":80}}},"path":"/","pathType":"Prefix"}]}}]}}
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header X-Forwarded-Proto https;
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  creationTimestamp: "2025-01-20T20:23:32Z"
+  generation: 1
+  name: wordpress-sk-ingress
+  namespace: wordpress
+  resourceVersion: "362606"
+  uid: d33fc4d2-7942-481c-b622-4ccbd34352c0
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: sascha-kohler.at
+    http:
+      paths:
+      - backend:
+          service:
+            name: wordpress-sk
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  - host: www.sascha-kohler.at
+    http:
+      paths:
+      - backend:
+          service:
+            name: wordpress-sk
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+status:
+  loadBalancer:
+    ingress:
+    - ip: 10.43.188.185
